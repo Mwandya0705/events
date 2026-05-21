@@ -1611,6 +1611,7 @@ function Scene({
 export default function VenueLayout3D() {
   const [view, setView] = useState<"iso" | "top" | "stage">("iso");
   const [hoveredPartner, setHoveredPartner] = useState<string | null>(null);
+  const [legendOpen, setLegendOpen] = useState(true);
 
   return (
     <div
@@ -1699,45 +1700,127 @@ export default function VenueLayout3D() {
         </div>
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: "clamp(12px, 2vw, 24px)",
-          left: "clamp(12px, 2vw, 24px)",
-          padding: "12px 16px",
-          background: "rgba(15,17,21,0.78)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(201,168,106,0.25)",
-          borderRadius: 14,
-          color: "#f6f1e7",
-          fontFamily: "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-          fontSize: 11,
-          letterSpacing: 0.4,
-          maxWidth: "min(90vw, 320px)",
-        }}
-      >
-        <div style={{ fontWeight: 700, fontSize: 12, letterSpacing: 1.4, textTransform: "uppercase", marginBottom: 8, color: "#ffd58a" }}>
-          Legend
-        </div>
-        {[
-          ["Main Stage (East Wall)", "#ffd58a"],
-          ["Partner Booths (1–13)", "#c9a86a"],
-          ["Long Banquet Tables ×4 (88 seats)", "#f6f1e7"],
-          ["Round Cocktail Tables ×8 (48 seats)", "#cdb37a"],
-          ["VIP Lounge (NW)", "#7a1f2b"],
-          ["Bar / Counter (West)", "#cba27a"],
-          ["South Bays", "#7aa6c9"],
-          ["Emergency Exits", "#0aa64a"],
-        ].map(([label, color]) => (
-          <div key={label} style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 3, background: color, boxShadow: `0 0 8px ${color}66` }} />
-            <span>{label}</span>
+      {legendOpen ? (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "clamp(12px, 2vw, 24px)",
+            left: "clamp(12px, 2vw, 24px)",
+            padding: "12px 16px 12px 16px",
+            background: "rgba(15,17,21,0.78)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(201,168,106,0.25)",
+            borderRadius: 14,
+            color: "#f6f1e7",
+            fontFamily: "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+            fontSize: 11,
+            letterSpacing: 0.4,
+            maxWidth: "min(90vw, 320px)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+              marginBottom: 8,
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 700,
+                fontSize: 12,
+                letterSpacing: 1.4,
+                textTransform: "uppercase",
+                color: "#ffd58a",
+              }}
+            >
+              Legend
+            </div>
+            <button
+              type="button"
+              onClick={() => setLegendOpen(false)}
+              aria-label="Hide legend"
+              title="Hide legend"
+              style={{
+                appearance: "none",
+                background: "transparent",
+                border: "1px solid rgba(201,168,106,0.3)",
+                color: "#f6f1e7",
+                width: 22,
+                height: 22,
+                borderRadius: 999,
+                cursor: "pointer",
+                lineHeight: 1,
+                fontSize: 13,
+                display: "grid",
+                placeItems: "center",
+                padding: 0,
+              }}
+            >
+              ×
+            </button>
           </div>
-        ))}
-        <div style={{ marginTop: 10, opacity: 0.6, fontSize: 10 }}>
-          Drag to orbit · Scroll to zoom · Hover booths to highlight
+          {[
+            ["Main Stage (East Wall)", "#ffd58a"],
+            ["Partner Booths (1–13)", "#c9a86a"],
+            ["Long Banquet Tables ×4 (88 seats)", "#f6f1e7"],
+            ["Round Cocktail Tables ×8 (48 seats)", "#cdb37a"],
+            ["VIP Lounge (NW)", "#7a1f2b"],
+            ["Bar / Counter (West)", "#cba27a"],
+            ["South Bays", "#7aa6c9"],
+            ["Emergency Exits", "#0aa64a"],
+          ].map(([label, color]) => (
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
+              <span style={{ width: 10, height: 10, borderRadius: 3, background: color, boxShadow: `0 0 8px ${color}66` }} />
+              <span>{label}</span>
+            </div>
+          ))}
+          <div style={{ marginTop: 10, opacity: 0.6, fontSize: 10 }}>
+            Drag to orbit · Scroll to zoom · Hover booths to highlight
+          </div>
         </div>
-      </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setLegendOpen(true)}
+          aria-label="Show legend"
+          style={{
+            position: "absolute",
+            bottom: "clamp(12px, 2vw, 24px)",
+            left: "clamp(12px, 2vw, 24px)",
+            padding: "8px 14px",
+            background: "rgba(15,17,21,0.78)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(201,168,106,0.35)",
+            borderRadius: 999,
+            color: "#ffd58a",
+            fontFamily: "Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+            fontSize: 11,
+            letterSpacing: 1.4,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
+          }}
+        >
+          <span
+            aria-hidden
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: 3,
+              background: "linear-gradient(135deg,#ffd58a,#c9a86a)",
+              boxShadow: "0 0 8px #ffd58a66",
+            }}
+          />
+          Show Legend
+        </button>
+      )}
 
       {hoveredPartner && (
         <div
