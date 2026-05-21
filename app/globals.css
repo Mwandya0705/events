@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #050608;
+  color: #f6f1e7;
+  overscroll-behavior: none;
+}
+
+canvas {
+  display: block;
+  outline: none;
+  touch-action: none;
+}
+
+@media (max-width: 640px) {
+  /* Smaller HUD typography on phones */
+  html {
+    font-size: 14px;
+  }
+}
